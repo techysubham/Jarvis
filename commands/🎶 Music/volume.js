@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "volume",
@@ -67,7 +67,7 @@ module.exports = {
         )
       );
 
-    distube.setVolume(message, args[0]);
+    client.distube.setVolume(message, args[0]);
 
     message.channel
       .send(

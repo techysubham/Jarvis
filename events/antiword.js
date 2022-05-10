@@ -1,39 +1,37 @@
-const ms = require('ms')
-const { Client, Message, MessageEmbed } = require('discord.js');
-const client = require('../index')
-const antiwordsData = require('../utils/models/antiwords');
-
-/** 
- * @param {Client} client 
- * @param {Message} message 
- * @param {String[]} args 
- */
-
+const { MessageEmbed } = require("discord.js");
+const client = require("../index");
 
 const badwords = [
-    "fuck", "lund", "bc", "motherfucker", "chutiya", "porn", "sex"
-]
+  "fuck",
+  "lund",
+  "bc",
+  "motherfucker",
+  "chutiya",
+  "porn",
+  "sex",
+];
 
-
-client.on('message', (message) => {
-    try {
-        const messagedelete = () => {
-            message.delete();
-            message.reply(
-                new MessageEmbed()
-                    .setDescription(`\`\` Noob Don't Send Any Type Of Bad Word Here Bcz I am The Anti-Bad Words Bot 😁😁 \`\``)
-            ).then((msg) => {
-                msg.delete({ timeout: 5000 })
-            })
-        }
-        antiwordsData.findOne({ Guild: message.guild.id }, async (err, data) => {
-            if (
-                message.content.match(badwords)
-            ) {
-                messagedelete()
-            }
-        })
-    } catch (e) {
-        message.channel.send(e)
+client.on("message", (message) => {
+  try {
+    const messagedelete = () => {
+      message.delete();
+      message
+        .reply(
+          new MessageEmbed().setDescription(
+            `\`\` Noob Don't Send Any Type Of Bad Word Here Bcz I am The Anti-Bad Words Bot 😁😁 \`\``
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
+    };
+    let data = client.db.get(`antiword-${message.guild.id}`);
+    if (data === true) {
+      if (message.content.match(badwords)) {
+        messagedelete();
+      }
     }
-})
+  } catch (e) {
+    message.channel.send(String(e));
+  }
+});

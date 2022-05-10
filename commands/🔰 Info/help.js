@@ -1,14 +1,20 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Client, Message } = require("discord.js");
 const { readdirSync } = require("fs");
 const prefix = require("../../config/config.json").prefix;
 
 module.exports = {
   name: "help",
-  aliases: ['h'],
+  aliases: ["h"],
   description: "Shows all available bot commands.",
+
+  /**
+   * 
+   * @param {Client} client 
+   * @param {Message} message 
+   * @param {String[]} args 
+   * @returns 
+   */
   run: async (client, message, args) => {
-
-
     const roleColor =
       message.guild.me.displayHexColor === "#000000"
         ? "#ffffff"
@@ -18,6 +24,7 @@ module.exports = {
       let categories = [];
 
       readdirSync("./commands/").forEach((dir) => {
+        if(dir === "Owner") return
         const commands = readdirSync(`./commands/${dir}/`).filter((file) =>
           file.endsWith(".js")
         );
@@ -64,7 +71,9 @@ module.exports = {
 
       if (!command) {
         const embed = new MessageEmbed()
-          .setTitle(`Invalid command! Use \`${prefix}help\` for all of my commands!`)
+          .setTitle(
+            `Invalid command! Use \`${prefix}help\` for all of my commands!`
+          )
           .setColor("FF0000");
         return message.channel.send(embed);
       }

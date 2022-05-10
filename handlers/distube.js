@@ -1,13 +1,8 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { prefix, config } = require("..");
-const distube = require("../utils/distubeClient");
-const ee = require('../config/embed.json')
-/**
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- */
-module.exports = async (client, message, args) => {
+const ee = require("../config/embed.json");
+
+module.exports = async (client) => {
   const status = (queue) =>
     `Volume: ${queue.volume}% | Filter: ${queue.filter || " ❌ Off"} | Loop: ${
       queue.repeatMode
@@ -18,17 +13,17 @@ module.exports = async (client, message, args) => {
     } | Autoplay: ${queue.autoplay ? " ✅ On" : " ❌ Off"}`;
 
   // play song
-  distube.on("playSong", (message, queue, song) => {
+  client.distube.on("playSong", (message, queue, song) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color)
+        new MessageEmbed()
+          .setColor(ee.color)
           .setTitle(`Playing Song`)
           .setDescription(`Song: [\`${song.name}\`](${song.url})`)
-          .addField("Requested by:", `>>> ${song.user}`, true)
+          .addField("Requested by:", ` ${song.user}`, true)
           .addField(
             "Duration:",
-            `>>> \`${queue.formattedCurrentTime} / ${song.formattedDuration}\``,
+            `\`${queue.formattedCurrentTime} / ${song.formattedDuration}\``,
             true
           )
           .setThumbnail(song.thumbnail)
@@ -64,10 +59,9 @@ module.exports = async (client, message, args) => {
             member.voice.channel.id !== member.guild.me.voice.channel.id
           )
             return message.channel.send(
-               new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                " You must join a Voice Channel"
-              )
+              new MessageEmbed()
+                .setColor(ee.color)
+                .setDescription(" You must join a Voice Channel")
             );
 
           switch (reaction.emoji.id || reaction.emoji.name) {
@@ -78,10 +72,11 @@ module.exports = async (client, message, args) => {
               queue.connection.dispatcher.end();
               message.channel
                 .send(
-                   new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                    `\`Song Skipped\` By ${message.author.username}`
-                  )
+                  new MessageEmbed()
+                    .setColor(ee.color)
+                    .setDescription(
+                      `\`Song Skipped\` By ${message.author.username}`
+                    )
                 )
                 .then((msg) => {
                   msg.delete({
@@ -97,13 +92,14 @@ module.exports = async (client, message, args) => {
               reaction.users.remove(user).catch(console.error);
               if (queue.playing) {
                 queue.playing = !queue.playing;
-                distube.pause(message);
+                client.distube.pause(message);
                 message.channel
                   .send(
-                     new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                      `⏸ Song is Pause by <@${message.author.id}>`
-                    )
+                    new MessageEmbed()
+                      .setColor(ee.color)
+                      .setDescription(
+                        `⏸ Song is Pause by <@${message.author.id}>`
+                      )
                   )
                   .then((msg) => {
                     msg.delete({
@@ -112,13 +108,14 @@ module.exports = async (client, message, args) => {
                   });
               } else {
                 queue.playing = !queue.playing;
-                distube.resume(message);
+                client.distube.resume(message);
                 message.channel
                   .send(
-                     new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                      `▶ Resumed Song By <@${message.author.id}>`
-                    )
+                    new MessageEmbed()
+                      .setColor(ee.color)
+                      .setDescription(
+                        `▶ Resumed Song By <@${message.author.id}>`
+                      )
                   )
                   .then((msg) => {
                     msg.delete({
@@ -139,10 +136,11 @@ module.exports = async (client, message, args) => {
               queue.textChannel;
               message.channel
                 .send(
-                   new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                    `🔉 Decreased The Volume, The Volume is Now ${queue.volume}%`
-                  )
+                  new MessageEmbed()
+                    .setColor(ee.color)
+                    .setDescription(
+                      `🔉 Decreased The Volume, The Volume is Now ${queue.volume}%`
+                    )
                 )
                 .then((msg) => {
                   msg.delete({
@@ -161,10 +159,11 @@ module.exports = async (client, message, args) => {
               );
               message.channel
                 .send(
-                   new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                    `🔊 Increased The Volume, The Volume Is Now ${queue.volume}%`
-                  )
+                  new MessageEmbed()
+                    .setColor(ee.color)
+                    .setDescription(
+                      `🔊 Increased The Volume, The Volume Is Now ${queue.volume}%`
+                    )
                 )
                 .then((msg) => {
                   msg.delete({
@@ -179,10 +178,11 @@ module.exports = async (client, message, args) => {
               queue.loop = !queue.loop;
               message.channel
                 .send(
-                   new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                    `Loop is now ${queue.loop ? "**✅ on**" : "**❌ off**"}`
-                  )
+                  new MessageEmbed()
+                    .setColor(ee.color)
+                    .setDescription(
+                      `Loop is now ${queue.loop ? "**✅ on**" : "**❌ off**"}`
+                    )
                 )
                 .then((msg) => {
                   msg.delete({
@@ -197,10 +197,11 @@ module.exports = async (client, message, args) => {
               queue.songs = [];
               message.channel
                 .send(
-                   new MessageEmbed()
-                .setColor(ee.color).setDescription(
-                    `⏹ Music is Stopped by <@${message.author.id}>`
-                  )
+                  new MessageEmbed()
+                    .setColor(ee.color)
+                    .setDescription(
+                      `⏹ Music is Stopped by <@${message.author.id}>`
+                    )
                 )
                 .then((msg) => {
                   msg.delete({
@@ -231,14 +232,14 @@ module.exports = async (client, message, args) => {
   });
 
   // add song
-  distube.on("addSong", (message, queue, song) => {
+  client.distube.on("addSong", (message, queue, song) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color)
+        new MessageEmbed()
+          .setColor(ee.color)
           .setTitle("🎶 Added Song!")
           .setDescription(
-            `Song: >>> [\`${song.name}\`](${song.url}) \n Duration 🎱 >>> \`${song.formattedDuration}\` \n Tracks >>> ${queue.songs.length}`
+            `Song:  [\`${song.name}\`](${song.url}) \n Duration 🎱  \`${song.formattedDuration}\` \n Tracks  ${queue.songs.length}`
           )
           .setFooter(`Requested by: <@${message.author.id}>\n${status(queue)}}`)
       )
@@ -248,20 +249,16 @@ module.exports = async (client, message, args) => {
   });
 
   // add list
-  distube.on("addList", (message, queue, playlist) => {
+  client.distube.on("addList", (message, queue, playlist) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color)
+        new MessageEmbed()
+          .setColor(ee.color)
           .setTitle("🎶 Added List!")
           .setDescription(
-            `List: >>> [\`${playlist.name}\`](${
-              playlist.url
-            }) \n Duration 🎱 >>> \`${
+            `List:  [\`${playlist.name}\`](${playlist.url}) \n Duration 🎱  \`${
               playlist.formattedDuration
-            }\` \n Tracks >>> ${playlist.songs.length} \n To Queue${status(
-              queue
-            )}`
+            }\` \n Tracks  ${playlist.songs.length} \n To Queue${status(queue)}`
           )
           .setFooter(`Requested by: ${message.author.tag}\n${status(queue)}}`)
       )
@@ -271,14 +268,14 @@ module.exports = async (client, message, args) => {
   });
 
   // add playlist
-  distube.on("playList", (message, queue, playlist) => {
+  client.distube.on("playList", (message, queue, playlist) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color)
+        new MessageEmbed()
+          .setColor(ee.color)
           .setTitle("🎶 Added PlayList!")
           .setDescription(
-            `PlayList: >>> [\`${playlist.name}\`](${playlist.url}) \n Duration 🎱 >>> \`${playlist.formattedDuration}\` \n Tracks >>> ${playlist.songs.length} \n Added By ${playlist.user}`
+            `PlayList:  [\`${playlist.name}\`](${playlist.url}) \n Duration 🎱  \`${playlist.formattedDuration}\` \n Tracks  ${playlist.songs.length} \n Added By ${playlist.user}`
           )
           .setFooter(`Requested by: ${message.author.tag}\n${status(queue)}}`)
       )
@@ -288,12 +285,12 @@ module.exports = async (client, message, args) => {
   });
 
   // search result
-  distube.on("searchResult", (message, result) => {
+  client.distube.on("searchResult", (message, result) => {
     let i = 0;
     message.channel.send(
-       new MessageEmbed()
-                .setColor(ee.color)
-        .setTitle(`Your Search Result >>> ${result.length}`)
+      new MessageEmbed()
+        .setColor(ee.color)
+        .setTitle(`Your Search Result  ${result.length}`)
         .addField(
           `**Choose an option from below**\n${result
             .map(
@@ -312,49 +309,56 @@ module.exports = async (client, message, args) => {
   });
 
   // search cancel
-  distube.on("searchCancel", () => {
+  client.distube.on("searchCancel", (message) => {
     message.channel
-      .send( new MessageEmbed()
- .setColor(ee.color).setDescription(`Your Search Canceled`))
+      .send(
+        new MessageEmbed()
+          .setColor(ee.color)
+          .setDescription(`Your Search Canceled`)
+      )
       .then((msg) => {
         msg.delete({ timeout: 5000 });
       });
   });
-  distube.on("error", (message, e) => {
+  client.distube.on("error", (message, e) => {
     message.channel
-      .send( new MessageEmbed()
- .setColor(ee.color).setTitle(`This is Error`).setDescription(e))
+      .send(
+        new MessageEmbed()
+          .setColor(ee.color)
+          .setTitle(`This is Error`)
+          .setDescription(e)
+      )
       .then((msg) => {
         msg.delete({ timeout: 5000 });
       });
   });
-  distube.on("initQueue", (queue) => {
+  client.distube.on("initQueue", (queue) => {
     queue.autoplay = false;
     queue.volume = 75;
     queue.filter = "lowbass";
     queue.repeatMode = false;
   });
 
-  distube.on("finish", (message) => {
+  client.distube.on("finish", (message) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color).setDescription(
-          `Song is Finished \n type ${prefix}play to Play a New Song`
-        )
+        new MessageEmbed()
+          .setColor(ee.color)
+          .setDescription(
+            `Song is Finished \n type ${prefix}play to Play a New Song`
+          )
       )
       .then((msg) => {
         msg.delete({ timeout: 5000 });
       });
   });
 
-  distube.on("empty", (message) => {
+  client.distube.on("empty", (message) => {
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color).setDescription(
-          `Nothing Playing \n i am in VC \nThanks to My Owner`
-        )
+        new MessageEmbed()
+          .setColor(ee.color)
+          .setDescription(`Nothing Playing \n i am in VC \nThanks to My Owner`)
       )
       .then((msg) => {
         msg.delete({ timeout: 5000 });

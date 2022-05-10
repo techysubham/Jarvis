@@ -1,10 +1,7 @@
 {
   "token": "Bot_TOKEN",
-  "prefix": "!",
-  "ownerIDS": [
-    "882481863661342770"
-  ],
-  "mongo": "MONGO_DB_URL",
+  "prefix": "??",
+  "ownerIDS": ["882481863661342770"],
   "everyoneMention": false,
   "hostedBy": true,
   "customFilters": {

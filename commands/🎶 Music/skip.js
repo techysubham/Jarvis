@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "skip",
@@ -52,7 +52,7 @@ module.exports = {
         msg.delete({timeout : 5000})
     })
 
-    distube.skip(message);
+    client.distube.skip(message);
 
     message.channel.send(
        new MessageEmbed()

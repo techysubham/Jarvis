@@ -2,11 +2,11 @@
   "msg": {
     "COMMENT": "IF YOU DECIDE TO USE CUSTOM EMOJIS, USE THE NAME AND THE ID IN MSG, EXAMPLE: ⬜ --> <:progressbar_left_filled:818558865268408341>",
 
-    "ERROR" : "❌",
-    "SUCCESS" : "✅",
+    "ERROR": "❌",
+    "SUCCESS": "✅",
 
-    "disabled" : "❌",
-    "enabled" : "✅",
+    "disabled": "❌",
+    "enabled": "✅",
 
     "progress_bar": {
       "leftindicator": "[",
@@ -51,12 +51,10 @@
     "show_current_track": "🩸"
   },
   "react": {
-
     "COMMENT": "IF YOU DECIDE TO USE CUSTOM EMOJIS, USE JUST THE ID IN REACT, EXAMPLE: ⏪ --> 818558865268408341",
 
-    "ERROR" : "❌",
-    "SUCCESS" : "✅",
-
+    "ERROR": "❌",
+    "SUCCESS": "✅",
 
     "rewind": "⏪",
     "forward": "⏩",
@@ -74,5 +72,4 @@
     "show_queue": "📑",
     "show_current_track": "🩸"
   }
-
 }

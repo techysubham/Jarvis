@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
     name: "nowplaying",
@@ -50,7 +50,7 @@ module.exports = {
                     msg.delete({ timeout: 5000 });
                 });
 
-        const queue = distube.getQueue(message);
+        const queue = client.distube.getQueue(message);
 
         if (!queue) return message.channel
             .send(

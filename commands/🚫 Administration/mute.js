@@ -2,7 +2,6 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
 const ms = require("ms");
-const Schema = require("../../utils/models/mute");
 
 module.exports = {
   name: "mute",
@@ -145,7 +144,6 @@ module.exports = {
           });
 
       let highestrolepos = message.guild.me.roles.highest.position;
-      console.log(Number(highestrolepos) - 1);
       mutedrole = await message.guild.roles
         .create({
           data: {
@@ -246,18 +244,6 @@ module.exports = {
 
     try {
       member.roles.add(mutedrole);
-
-      Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
-        if (!data) {
-          new Schema({
-            Guild: message.guild.id,
-            Users: member.id,
-          }).save();
-        } else {
-          data.Users.push(member.id);
-          data.save();
-        }
-      });
     } catch {
       message.channel
         .send(

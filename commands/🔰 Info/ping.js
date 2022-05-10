@@ -1,24 +1,24 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed } = require("discord.js");
 const config = require("../../config/config.json");
 
 module.exports = {
-  name: 'ping',
+  name: "ping",
   category: "🔰 Info",
-  aliases: ['api'],
+  aliases: ["api"],
   cooldown: 5,
-  description: 'Get Bot Ping..',
-  usage: 'ping',
+  description: "Get Bot Ping..",
+  usage: "ping",
   memberpermissions: [" "],
-  /** 
-   * @param {Client} client 
-   * @param {Message} message 
-   * @param {String[]} args 
+  /**
+   * @param {Client} client
+   * @param {Message} message
+   * @param {String[]} args
    */
   run: async (client, message, args) => {
-
     message.channel.send(
-       new MessageEmbed()
-        .setDescription(`> 🎈 Ping ${Date.now() - message.createdTimestamp}ms`)
-    )
-  }
-}
+      new MessageEmbed().setDescription(
+        `> 🎈 Ping ${Date.now() - message.createdTimestamp}ms`
+      )
+    );
+  },
+};

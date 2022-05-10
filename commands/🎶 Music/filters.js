@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "filter",
@@ -58,7 +58,7 @@ module.exports = {
           msg.delete({ timeout: 5000 });
         });
 
-    let queue = distube.getQueue(message);
+    let queue = client.distube.getQueue(message);
 
     const filters = [
       "3d",
@@ -174,7 +174,7 @@ module.exports = {
         .then((msg) => {
           msg.delete({ timeout: 5000 });
         });
-      distube.setFilter(message, choice);
+      client.distube.setFilter(message, choice);
       //catch any errors while searching
     } catch (error) {
       //log them

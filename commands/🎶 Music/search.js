@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "search",
@@ -84,6 +84,6 @@ module.exports = {
         });
     }
 
-    distube.play(message);
+    client.distube.play(message);
   },
 };

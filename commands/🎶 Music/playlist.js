@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 const { prefix } = require("../..");
 
 module.exports = {
@@ -56,7 +56,7 @@ module.exports = {
                 msg.delete({ timeout: 5000 })
             })
 
-        await distube.playCustomPlaylist(message, {
+        await client.distube.playCustomPlaylist(message, {
             search: args.join(" "),
             maxsongs: -1
         })

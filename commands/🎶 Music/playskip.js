@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 var { getData, getPreview, getTracks } = require("spotify-url-info");
 
 module.exports = {
@@ -83,7 +83,7 @@ module.exports = {
       //get data
       let info = await getPreview(args.join(" "));
       //play track
-      return distube.playSkip(message, info.artist + " " + info.title);
+      return client.distube.playSkip(message, info.artist + " " + info.title);
     }
     if (args.length) {
       message.channel
@@ -93,6 +93,6 @@ module.exports = {
           msg.delete({ timeout: 5000 });
         });
     }
-    distube.playSkip(message, args.join(" "));
+    client.distube.playSkip(message, args.join(" "));
   },
 };

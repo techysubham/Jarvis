@@ -1,31 +1,26 @@
-const { Client, GuildMember, MessageEmbed } = require('discord.js');
-const client = require('../index')
-const schema = require('../utils/models/antiraid');
+const { MessageEmbed } = require("discord.js");
+const client = require("../index");
 
-
-client.on('guildMemberAdd', (member) => {
-    try {
-        schema.findOne({ Guild: member.guild.id }, async (err, data) => {
-            const kickReason = 'Anti-raidmode activated';
-            if (!data) return;
-            if (data) {
-                try {
-                    member.send(
-                        new MessageEmbed()
-                            .setTitle(`Server Under Lockdown`)
-                            .setDescription(
-                                `You have been kicked from **${member.guild.name
-                                }** with reason: **${kickReason}**`
-                            )
-                            .setColor('RED')
-                    );
-                } catch (e) {
-                    throw e
-                }
-                member.kick(kickReason);
-            }
-        });
-    } catch (e) {
-        console.log(e)
+client.on("guildMemberAdd", async (member) => {
+  try {
+    let data = client.db.get(`antiraid-${member.guild.id}`);
+    if (data === true) {
+      const kickReason = "Anti-raidmode activated";
+      try {
+        await member.send(
+          new MessageEmbed()
+            .setTitle(`Server Under Lockdown`)
+            .setDescription(
+              `You have been kicked from **${member.guild.name}** with reason: **${kickReason}**`
+            )
+            .setColor("RED")
+        );
+        member.kick(kickReason).catch((e) => null);
+      } catch (e) {
+        throw e;
+      }
     }
-})
+  } catch (e) {
+    console.log(e);
+  }
+});

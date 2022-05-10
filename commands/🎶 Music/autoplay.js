@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "autoplay",
@@ -22,10 +22,11 @@ module.exports = {
     if (!channel)
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(
-            `Please Join Voice Channel To Enable or Disable Autoplay Song`
-          )
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(
+              `Please Join Voice Channel To Enable or Disable Autoplay Song`
+            )
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
@@ -35,8 +36,9 @@ module.exports = {
     if (!message.guild.me.voice.channel)
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(`Nothing Playing In Voice Channel`)
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(`Nothing Playing In Voice Channel`)
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
@@ -49,25 +51,26 @@ module.exports = {
     )
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(
-            `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
-          )
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(
+              `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
+            )
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
         });
 
-    distube.toggleAutoplay(message);
+    client.distube.toggleAutoplay(message);
 
     await message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color)
+        new MessageEmbed()
+          .setColor(ee.color)
           .setDescription(`Song Resumed By <@${message.author.id}>`)
           .setDescription(
             `AutoPlay is Now **${
-              distube.toggleAutoplay(message) ? "✅ Active" : "❌ Deactive"
+              client.distube.toggleAutoplay(message) ? "✅ Active" : "❌ Deactive"
             }**`
           )
       )

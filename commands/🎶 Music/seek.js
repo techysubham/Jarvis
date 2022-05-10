@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "seek",
@@ -52,13 +52,13 @@ module.exports = {
         msg.delete({timeout : 5000})
     })
 
-    let queue = distube.getQueue(message);
+    let queue = client.distube.getQueue(message);
 
      //get the seektime
      let seektime = queue.currentTime + Number(args[0]) * 1000;
      if (seektime >= queue.songs[0].duration * 1000) seektime = queue.songs[0].duration * 1000 - 1;
 
-     distube.seek(message , Number(seektime))
+     client.distube.seek(message , Number(seektime))
 
 
     message.channel.send(

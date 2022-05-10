@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
+ 
 
 module.exports = {
   name: "loop",
@@ -85,7 +85,7 @@ module.exports = {
     loopis = Number(loopis);
 
     if (0 <= loopis && loopis <= 2) {
-      await distube.setRepeatMode(message, parseInt(args[0]));
+      await client.distube.setRepeatMode(message, parseInt(args[0]));
       message.channel
         .send(
            new MessageEmbed()

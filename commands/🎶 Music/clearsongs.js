@@ -1,7 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
-const distube = require("../../utils/distubeClient");
 
 module.exports = {
   name: "clearsongs",
@@ -22,10 +21,9 @@ module.exports = {
     if (!channel)
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(
-            `Please Join Voice Channel To Clear All Song`
-          )
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(`Please Join Voice Channel To Clear All Song`)
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
@@ -35,10 +33,9 @@ module.exports = {
     if (!message.guild.me.voice.channel)
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(
-            `Nothing Playing In Voice Channel To Clear`
-          )
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(`Nothing Playing In Voice Channel To Clear`)
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
@@ -51,25 +48,25 @@ module.exports = {
     )
       return message.channel
         .send(
-           new MessageEmbed()
-                .setColor(ee.color).setDescription(
-            `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
-          )
+          new MessageEmbed()
+            .setColor(ee.color)
+            .setDescription(
+              `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
+            )
         )
         .then((msg) => {
           msg.delete({ timeout: 5000 });
         });
 
-    let queue = distube.getQueue(message);
+    let queue = client.distube.getQueue(message);
 
     queue.songs = [queue.songs[0]];
 
     message.channel
       .send(
-         new MessageEmbed()
-                .setColor(ee.color).setDescription(
-          `Clear All The Songs By <@${message.author.id}>`
-        )
+        new MessageEmbed()
+          .setColor(ee.color)
+          .setDescription(`Clear All The Songs By <@${message.author.id}>`)
       )
       .then((msg) => {
         msg.delete({ timeout: 5000 });

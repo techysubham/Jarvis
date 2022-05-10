@@ -28,7 +28,7 @@ a discord bot with many commands , music , moderation etc
 }
 ```
 
-## Music Bot Features
+## Bot Features
 
 - easy to use Music Bot
 - support Youtube , Spotify , Soundcloud , etc 700+ websites

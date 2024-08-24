@@ -1,6 +1,3 @@
-# Hi, I'm Kabir! 👋
-
-I'm a Discord Bot Developer and here is mine All in One Discord Bot
 
 # Advance Discord Bot
 
